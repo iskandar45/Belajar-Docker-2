@@ -1,7 +1,5 @@
 # version: "3.9"
-
 services:
-
   db:
     image: postgres:15
     container_name: db
@@ -12,8 +10,6 @@ services:
       POSTGRES_DB: testdb
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - belajar-net
 
@@ -23,11 +19,20 @@ services:
     depends_on:
       - db
     restart: on-failure
+    networks:
+      - belajar-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
     environment:
-      - PGUSER=postgres
-      - PGPASSWORD=postgres
-      - PGHOST=db
-      - PGDATABASE=testdb
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
     networks:
       - belajar-net
 
@@ -36,4 +41,3 @@ volumes:
 
 networks:
   belajar-net:
-    driver: bridge
