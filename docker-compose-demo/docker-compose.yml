@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  app:
+    build: ./app
+    container_name: app-compose
+    depends_on:
+      - redis
+    networks:
+      - belajar-net
+
+  redis:
+    image: redis:latest
+    container_name: redis-compose
+    networks:
+      - belajar-net
+
+networks:
+  belajar-net:
+    driver: bridge

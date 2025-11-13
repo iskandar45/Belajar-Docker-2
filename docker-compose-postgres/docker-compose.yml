@@ -1,0 +1,39 @@
+# version: "3.9"
+
+services:
+
+  db:
+    image: postgres:15
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - belajar-net
+
+  app:
+    build: ./app
+    container_name: app-node
+    depends_on:
+      - db
+    restart: on-failure
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGHOST=db
+      - PGDATABASE=testdb
+    networks:
+      - belajar-net
+
+volumes:
+  pgdata:
+
+networks:
+  belajar-net:
+    driver: bridge
