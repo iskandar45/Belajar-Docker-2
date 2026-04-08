@@ -1,1 +1,1 @@
-console.log('Halo dunia dari app.js2!')
+console.log('Halo dunia dari app.js!')
